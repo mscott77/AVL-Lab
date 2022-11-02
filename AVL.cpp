@@ -167,44 +167,46 @@ void AVL :: replace_parent(Node*& old_root,Node*& local_root)
 
     void AVL :: Rebalance(Node*& localRoot)
     {
-    // Check node's balance (should be -2, -1, 0, 1, or 2)
-    int balance = getBalance(localRoot);
+        // Check node's balance (should be -2, -1, 0, 1, or 2)
+        int balance = getBalance(localRoot);
 
-    // Case: balance == -2 (LL or LR tree)
-    if (balance == -2)
-    {
-        int lBalance = getBalance(localRoot->left);
-        // Case: LL tree (left balance is -1 or 0, so rotate right around n)
-        if (lBalance == -1 || lBalance == 0 )
-        { 
-            // FIXME!
-        }
-        // Case: LR tree (left balance is 1, so rotate left around n->left, then rotate right around n)
-        else if (lBalance == 1)
-        { 
-            // FIXME!
-        }
-    }
-    // Case: balance == 2 (RR or RL tree)
-    else if (balance == 2)
-    {
-        int rBalance = getBalance(localRoot->right);
-        // Case: RR tree (right balance is 1 or 0, so rotate left around n)
-        if (rBalance == 1 || rBalance == 0)
+        // Case: balance == -2 (LL or LR tree)
+        if (balance == -2)
         {
-            // FIXME!
+            int lBalance = getBalance(localRoot->left);
+            // Case: LL tree (left balance is -1 or 0, so rotate right around n)
+            if (lBalance == -1 || lBalance == 0 )
+            { 
+                rotateRight(localRoot);
+            }
+            // Case: LR tree (left balance is 1, so rotate left around n->left, then rotate right around n)
+            else if (lBalance == 1)
+            { 
+                rotateLeft(localRoot->left);
+                rotateRight(localRoot);
+            }
         }
-        // Case: RL tree (right balance is -1, so rotate right around n->right, then rotate left around n)
-        else if (rBalance == -1)
+        // Case: balance == 2 (RR or RL tree)
+        else if (balance == 2)
+        {
+            int rBalance = getBalance(localRoot->right);
+            // Case: RR tree (right balance is 1 or 0, so rotate left around n)
+            if (rBalance == 1 || rBalance == 0)
+            {
+                rotateLeft(localRoot);
+            }
+            // Case: RL tree (right balance is -1, so rotate right around n->right, then rotate left around n)
+            else if (rBalance == -1)
+            { 
+                rotateRight(localRoot->right);
+                rotateLeft(localRoot);
+            }
+        }
+        // Case: else (do nothing, not unbalanced)
+        else
         { 
-            // FIXME!
+            //do nothing 
         }
-    }
-    // Case: else (do nothing, not unbalanced)
-    else
-    { 
-        //do nothing 
-    }
     }
 
     //----------------------------
