@@ -3,7 +3,7 @@
 
     using namespace std;
     
-    /*------------------------------------------getRootNode()----------------------------------------(done)
+    /*------------------------------------------getRootNode()----------------------------------------
 	* Returns the root node for this tree
 	*
 	* @return the root node for this tree.
@@ -14,7 +14,7 @@
         return root;
     }
 
-	/*------------------------------------------add()------------------------------------------------(done)
+	/*------------------------------------------add()------------------------------------------------
 	* Attempts to add the given int to the AVL tree
 	*
 	* @return true if added
@@ -41,10 +41,14 @@
         else // item has not been found yet, recursively search the tree till you find the correct place and then make the new node!
         {
             if (data < localRoot->getData()){ // if the data to insert is less than the data at the current Node
-                return insert(localRoot->left , data); // recursively search the left child of the current Node
+                bool isAdded = insert(localRoot->left , data);  // recursively search the left child of the current Node
+                if (isAdded) { /*rebalance(localRoot);*/}       // calls the rebalance on the way out of recursion (if a new item has been added)
+                return isAdded;
             }
             else if (data > localRoot->getData()){ // if the data to insert is more than the data at the current Node
-                return insert(localRoot->right , data);
+                bool isAdded = insert(localRoot->right , data);
+                if (isAdded) { /*rebalance(localRoot);*/}       // calls the rebalance function on the way out of recursion (if a new item has been added)
+                return isAdded;
             }
             else { // in the case of a match, don't insert anything and return false. no Duplicate values are allowed
                 cout << "item already exists in the tree. no Items were added" << endl;
@@ -136,6 +140,87 @@ void AVL :: replace_parent(Node*& old_root,Node*& local_root)
             localRoot = NULL;
         }
     }
+
+    /*------------------------------------------rotate and rebalance functions------------------------------------------------
+	* 
+	*/
+    void AVL::rotateLeft(Node*& n)
+    {
+        Node* temp = n; 
+        n = n->right; // Set pointer to n to point to k
+        temp->right = n->left; // Set n's right to point to k's left
+        n->left = temp; // Set k's left to point to n   
+    }
+
+    //----------------------------
+
+    void AVL::rotateRight(Node*& n) // just copy rotate Left, but replace left with right and right with left 
+    {
+        Node* temp = n; 
+        n = n->left; // Set pointer to n to point to k
+        temp->left = n->right; // Set n's right to point to k's left
+        n->right = temp; // Set k's left to point to n
+    }
+
+    //----------------------------
+
+
+    void AVL :: Rebalance(Node*& localRoot)
+    {
+    // Check node's balance (should be -2, -1, 0, 1, or 2)
+    int balance = getBalance(localRoot);
+
+    // Case: balance == -2 (LL or LR tree)
+    if (balance == -2)
+    {
+        int lBalance = getBalance(localRoot->left);
+        // Case: LL tree (left balance is -1 or 0, so rotate right around n)
+        if (lBalance == -1 || lBalance == 0 )
+        { 
+            // FIXME!
+        }
+        // Case: LR tree (left balance is 1, so rotate left around n->left, then rotate right around n)
+        else if (lBalance == 1)
+        { 
+            // FIXME!
+        }
+    }
+    // Case: balance == 2 (RR or RL tree)
+    else if (balance == 2)
+    {
+        int rBalance = getBalance(localRoot->right);
+        // Case: RR tree (right balance is 1 or 0, so rotate left around n)
+        if (rBalance == 1 || rBalance == 0)
+        {
+            // FIXME!
+        }
+        // Case: RL tree (right balance is -1, so rotate right around n->right, then rotate left around n)
+        else if (rBalance == -1)
+        { 
+            // FIXME!
+        }
+    }
+    // Case: else (do nothing, not unbalanced)
+    else
+    { 
+        //do nothing 
+    }
+    }
+
+    //----------------------------
+
+    int AVL :: calcHeight(Node* localRoot)
+    {
+        // calculate the height of the node passed in
+    }
+
+    int AVL :: getBalance(Node* localRoot)
+    {
+        int balance = (calcHeight(localRoot->right) - calcHeight(localRoot->left));
+        return balance;
+    }
+
+    
 
 	/*------------------------------------------MasonsCustomFunction------------------------------------------------
 	* a custom made function for testing. it prints out an In-Order Traversal of the tree
