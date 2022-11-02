@@ -24,6 +24,12 @@ class AVL : public AVLInterface {
         // recursive helper function for printIntOrder()
         void InOrder(Node *n);
 
+        void Rebalance(Node*& localRoot);
+        void rotateRight(Node*& n);
+        void rotateLeft(Node*& n);
+        int calcHeight(Node* localRoot);
+        int getBalance(Node* localRoot);
+
     public:
         AVL()
         {
