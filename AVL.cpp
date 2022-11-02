@@ -108,8 +108,7 @@ void AVL :: replace_parent(Node*& old_root,Node*& local_root)
         replace_parent(old_root, local_root->right); // recursively keep going right
     } else { // if there are no more right children, you have found the furthestmost right child
         old_root->data = local_root->data; //
-        old_root = local_root;
-        local_root = local_root->left;
+        erase(old_root->left,local_root->data);
     }
 }
 
