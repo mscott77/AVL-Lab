@@ -213,7 +213,16 @@ void AVL :: replace_parent(Node*& old_root,Node*& local_root)
 
     int AVL :: calcHeight(Node* localRoot)
     {
-        // calculate the height of the node passed in
+        int height = 0;
+        if (localRoot == NULL)
+        {
+            return 0;
+        }
+        else{
+            return max(calcHeight(localRoot->left),calcHeight(localRoot->right)) + 1;
+        }
+
+        return height;
     }
 
     int AVL :: getBalance(Node* localRoot)
