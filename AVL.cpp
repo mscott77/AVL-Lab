@@ -42,12 +42,12 @@
         {
             if (data < localRoot->getData()){ // if the data to insert is less than the data at the current Node
                 bool isAdded = insert(localRoot->left , data);  // recursively search the left child of the current Node
-                if (isAdded) { /*rebalance(localRoot);*/}       // calls the rebalance on the way out of recursion (if a new item has been added)
+                if (isAdded) { Rebalance(localRoot); }       // calls the rebalance on the way out of recursion (if a new item has been added)
                 return isAdded;
             }
             else if (data > localRoot->getData()){ // if the data to insert is more than the data at the current Node
                 bool isAdded = insert(localRoot->right , data);
-                if (isAdded) { /*rebalance(localRoot);*/}       // calls the rebalance function on the way out of recursion (if a new item has been added)
+                if (isAdded) { Rebalance(localRoot); }       // calls the rebalance function on the way out of recursion (if a new item has been added)
                 return isAdded;
             }
             else { // in the case of a match, don't insert anything and return false. no Duplicate values are allowed
@@ -77,9 +77,17 @@
         } 
         else {
             if (item < local_root->data) // if the item to insert is less than the current localRoot...
-                return erase(local_root->left, item);     //search the left side of the subtree
+            {
+                bool isErased = erase(local_root->left, item);     //search the left side of the subtree
+                if (isErased){ Rebalance(local_root); }
+                return isErased;
+            }
             else if (local_root->data < item)           // if the item to insert is greater than the current localRoot...
-                return erase(local_root->right, item);    //search the right side of the subtree
+            {
+                bool isErased = erase(local_root->right, item);    //search the right side of the subtree
+                if (isErased){ Rebalance(local_root); }
+                return isErased;
+            }
             else {              // if the item is not less than or greater than the current Node, it must BE EQUAL TO the current node 
                 // 1 - save a pointer to the Node to be deleted. we will need it later
                 // 2 - if the Node to be deleted has 1 or less children,
@@ -219,8 +227,9 @@ void AVL :: replace_parent(Node*& old_root,Node*& local_root)
         {
             return 0;
         }
-        else{
-            return max(calcHeight(localRoot->left),calcHeight(localRoot->right)) + 1;
+        else
+        {
+            return ( max( calcHeight(localRoot->left),calcHeight(localRoot->right) ) + 1 );
         }
 
         return height;
