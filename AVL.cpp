@@ -66,7 +66,7 @@
 	*/
 	bool AVL :: remove(int data)
     {
-        cout << "In remove" << endl;
+        cout << "REMOVE called on " << data << endl;
         return erase(this->root,data);
 
     }
@@ -108,6 +108,7 @@
                     delete old_root;
                 } else {                                        // if the Node to be deleted has two children that are not NULL...
                     replace_parent(old_root, old_root->left);   // we will need to replace the Node to be deleted with its left childs rightmost child
+                    Rebalance(local_root);
                 }  
                 return true;
             }
@@ -117,12 +118,17 @@
 
 void AVL :: replace_parent(Node*& old_root,Node*& local_root) 
 {
+    cout << "In replace parent" << endl;
+    cout << "the node " << old_root->data << " has two children, looking for it's inorder predecessor...." << endl;
+
     // if the current Node's right child is not NULL, we can still keep going right. 
     if (local_root->right != NULL) {
         replace_parent(old_root, local_root->right); // recursively keep going right
     } else { // if there are no more right children, you have found the furthestmost right child
+        cout << "the inorder predecessor is: " << local_root->data << endl;
         old_root->data = local_root->data; //
-        erase(old_root->left,local_root->data);
+        bool isErased = erase(local_root,local_root->data);
+        //if(isErased){ Rebalance(old_root); }
     }
 }
 
@@ -178,6 +184,7 @@ void AVL :: replace_parent(Node*& old_root,Node*& local_root)
     {
         // Check node's balance (should be -2, -1, 0, 1, or 2)
         int balance = getBalance(localRoot);
+        cout << "node " << localRoot->data << " has a balance of: " << balance << endl;
 
         // Case: balance == -2 (LL or LR tree)
         if (balance == -2)
@@ -186,11 +193,13 @@ void AVL :: replace_parent(Node*& old_root,Node*& local_root)
             // Case: LL tree (left balance is -1 or 0, so rotate right around n)
             if (lBalance == -1 || lBalance == 0 )
             { 
+                cout << "found out of balance Node! case: LL" << endl;
                 rotateRight(localRoot);
             }
             // Case: LR tree (left balance is 1, so rotate left around n->left, then rotate right around n)
             else if (lBalance == 1)
             { 
+                cout << "found out of balance Node! case: LR" << endl;
                 rotateLeft(localRoot->left);
                 rotateRight(localRoot);
             }
@@ -202,6 +211,7 @@ void AVL :: replace_parent(Node*& old_root,Node*& local_root)
             // Case: RR tree (right balance is 1 or 0, so rotate left around n)
             if (rBalance == 1 || rBalance == 0)
             {
+                cout << "found out of balance Node! case: RR" << endl;
                 rotateLeft(localRoot);
             }
             // Case: RL tree (right balance is -1, so rotate right around n->right, then rotate left around n)

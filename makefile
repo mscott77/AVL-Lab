@@ -1,2 +1,2 @@
-mytest : myTest.cpp AVL.cpp Node.cpp
-	g++ -o mytest myTest.cpp AVL.cpp Node.cpp
+mytest : myTest2.cpp AVL.cpp Node.cpp
+	g++ -o mytest2 myTest2.cpp AVL.cpp Node.cpp
