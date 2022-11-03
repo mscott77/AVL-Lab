@@ -108,7 +108,7 @@
                     delete old_root;
                 } else {                                        // if the Node to be deleted has two children that are not NULL...
                     replace_parent(old_root, old_root->left);   // we will need to replace the Node to be deleted with its left childs rightmost child
-                    Rebalance(local_root);
+                    Rebalance(local_root);                      // THIS LINE IS VERY IMPORTANT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 }  
                 return true;
             }
