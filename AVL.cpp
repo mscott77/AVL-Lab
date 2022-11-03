@@ -207,6 +207,7 @@ void AVL :: replace_parent(Node*& old_root,Node*& local_root)
             // Case: RL tree (right balance is -1, so rotate right around n->right, then rotate left around n)
             else if (rBalance == -1)
             { 
+                cout << "R-L unbalanced tree recognized, performing rotations..." << endl;
                 rotateRight(localRoot->right);
                 rotateLeft(localRoot);
             }
