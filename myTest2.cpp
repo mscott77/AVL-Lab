@@ -36,7 +36,7 @@ int main(){
 
 
 
-
+    cout << "end of program" << endl;
     delete myTree;
     
     
