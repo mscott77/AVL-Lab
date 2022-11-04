@@ -124,6 +124,7 @@ void AVL :: replace_parent(Node*& old_root,Node*& local_root)
     // if the current Node's right child is not NULL, we can still keep going right. 
     if (local_root->right != NULL) {
         replace_parent(old_root, local_root->right); // recursively keep going right
+        Rebalance(local_root); // call rebalance() on the way out
     } else { // if there are no more right children, you have found the furthestmost right child
         cout << "the inorder predecessor is: " << local_root->data << endl;
         old_root->data = local_root->data; //
